@@ -2,15 +2,21 @@
 # hooks/changelog-required.sh — Require changelog fragment for feat/fix commits
 set -euo pipefail
 
-# Get the commit message type from staged files
+# This hook runs at commit-msg stage; for pre-commit stage, skip
+# since we cannot know the commit message type yet.
+if [ -z "${1:-}" ]; then
+    exit 0
+fi
+
+# Read commit message type
+MSG_FILE="$1"
 MSG_TYPE=""
-if git log --oneline -1 2>/dev/null | grep -qE '^[a-f0-9]+ feat'; then
+if head -1 "$MSG_FILE" | grep -qE '^feat'; then
     MSG_TYPE="feat"
-elif git log --oneline -1 2>/dev/null | grep -qE '^[a-f0-9]+ fix'; then
+elif head -1 "$MSG_FILE" | grep -qE '^fix'; then
     MSG_TYPE="fix"
 fi
 
-# Also check staged files for changelog fragment
 STAGED=$(git diff --cached --name-only 2>/dev/null || true)
 
 if [ "$MSG_TYPE" = "feat" ] || [ "$MSG_TYPE" = "fix" ]; then
