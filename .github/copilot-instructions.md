@@ -141,4 +141,4 @@ req: REQ-100
 - `scope`: short scope identifier
 - `req`: optional requirement ID
 
-[--no-verify flag will result in immediate termination; automatically enforced by CI.]
+[Bypassing local hooks with --no-verify does not bypass required CI gates. PRs cannot merge until required CI checks pass.]

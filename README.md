@@ -101,7 +101,12 @@ Plus: Sermon of the Chaplain (Plan → Judge → Enforce workflow), Knowledge Gr
 | Workflow | Gates |
 |----------|-------|
 | `commitlint.yml` | PR title validation, changelog-gate, diary-gate, conflict-check |
+| `quality.yml` | Requirement marker coverage, test coverage threshold, complexity gate, dead-code gate, duplication gate |
 | `security.yml` | Dependency vulnerability scanning (pip-audit) |
+
+CI workflows are the merge-boundary authority. Local hooks are fast feedback, but required CI checks decide merge eligibility.
+
+Reviewer checklist: see `docs/reviewer-checklist.md`.
 
 ### Diary Discipline (`docs/diary/`)
 
