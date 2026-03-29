@@ -86,5 +86,5 @@ repos:
         name: feat/fix commits require changelog fragment
         entry: bash hooks/changelog-required.sh
         language: system
-        stages: [pre-commit]
+        stages: [commit-msg]
         pass_filenames: false

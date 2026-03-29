@@ -59,8 +59,11 @@ jobs:
         with:
           fetch-depth: 0
       - name: Require changelog fragment
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
         run: |
-          DIFF=$(git diff --name-only origin/main...HEAD)
+          DIFF=$(git diff --name-only "$BASE_SHA" "$HEAD_SHA")
           if ! echo "$DIFF" | grep -q '^changelog/unreleased/'; then
             echo "::error::feat/fix PRs must include a changelog fragment in changelog/unreleased/"
             exit 1
@@ -77,6 +80,9 @@ jobs:
         with:
           fetch-depth: 0
       - name: Require diary reflection
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
         run: |
           TITLE="${{ github.event.pull_request.title }}"
           # Extract FR number if present
@@ -85,7 +91,7 @@ jobs:
             echo "No FR-XXX in title; diary gate skipped"
             exit 0
           fi
-          DIFF=$(git diff --name-only origin/main...HEAD)
+          DIFF=$(git diff --name-only "$BASE_SHA" "$HEAD_SHA")
           if ! echo "$DIFF" | grep -qE "docs/diary/.*reflection.*${FR_NUM}"; then
             echo "::error::feat/fix PRs with FR-XXX must include a diary reflection"
             exit 1
