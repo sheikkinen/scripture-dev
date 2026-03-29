@@ -1,0 +1,4 @@
+# Keep folder tracked while allowing markdown FR documents.
+*
+!.gitignore
+!*.md
